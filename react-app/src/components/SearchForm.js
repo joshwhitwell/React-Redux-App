@@ -55,6 +55,7 @@ function SearchForm(props) {
 
 
 //Map State from Global Redux Store and Set as Props
+//State Is Passed in from Connect On Invocation
 const mapStateToProps = (state) => {
     return {
         //Return Needed State Properties
@@ -63,4 +64,5 @@ const mapStateToProps = (state) => {
 }
 
 //Export SearchForm & Connect to Global Redux Flow
+//Second Argument Is For Needed Actions
 export default connect(mapStateToProps, {})(SearchForm)
