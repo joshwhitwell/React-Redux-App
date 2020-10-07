@@ -18,6 +18,7 @@ export const reducer = (state = initialState, action) => {
                 error: ''
             }
         case FETCH_POKEMON_SUCCESS:
+            console.log(action.payload)
             return {
                 ...state,
                 pokemon: action.payload,

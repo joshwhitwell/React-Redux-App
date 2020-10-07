@@ -11,16 +11,26 @@ export const FETCH_POKEMON_FAILURE = 'FETCH_POKEMON_FAILURE'
 //Receives URL from App State
 //Returns Thunk with Access to Dispatch through Middleware
 export const fetchPokemon = (url) => (dispatch) => {
-    //First dispatch triggers loading state 
+    //First dispatch triggers loading state
     dispatch({ type: FETCH_POKEMON_START })
     axios.get(url)
         .then((res) => {
-            //Second dispatch turns off loading state and sets data to store
-            dispatch({ type: FETCH_POKEMON_SUCCESS, payload: res.data })
+            let pokemonData = []
+            res.data.results.forEach(result => {
+                axios.get(result.url)
+                    .then((res) => {
+                        pokemonData.push(res.data)
+                    })
+                    .catch(err => console.log(err))
+            })
+            return pokemonData
+        })
+        .then((res) => {
+            dispatch({ type: FETCH_POKEMON_SUCCESS, payload: res })
         })
         .catch((err) => {
             console.log(err)
             //Third dispatch triggers if axios calls fails and returns error as payload
-            dispatch({ type: FETCH_POKEMON_FAILURE, payload: err})
+            dispatch({ type: FETCH_POKEMON_FAILURE, payload: err })
         })
 }
