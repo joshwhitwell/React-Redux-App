@@ -4,6 +4,9 @@ import React from 'react'
 //Styles
 import './App.css'
 
+//Components
+import SearchForm from './components/SearchForm'
+
 //App Component
 function App() {
   return (
@@ -11,6 +14,7 @@ function App() {
       <header>
         <h1>Pokemon App</h1>
       </header>
+      <SearchForm />
     </div>
   )
 }
