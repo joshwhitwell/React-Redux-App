@@ -4,32 +4,36 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 //Actions
-import { fetchPokemon } from './store/actions'
+import { fetchURLs } from './store/actions'
 
 //Styles
 import './App.css'
 
 //Components
 import SearchForm from './components/SearchForm'
+import PokemonCard from './components/PokemonCard'
 
 //App Component
 function App(props) {
-  //deconstruct fetchPokemon from props
-  const { fetchPokemon } = props
+  //deconstruct fetchURLs from props
+  const { fetchURLs } = props
   //initialize local state for API URL
   const [url, setURL] = useState('https://pokeapi.co/api/v2/pokemon/')
 
-  //use effect calls fetchPokemon action
+  //use effect calls fetchURLs action
   useEffect(() => {
-    fetchPokemon(url)
-  }, [fetchPokemon, url])
+    fetchURLs(url)
+  }, [fetchURLs, url])
 
   return (
     <div className='App'>
       <header>
         <h1>Pokemon App</h1>
       </header>
-      <SearchForm setURL={setURL}/>
+      <SearchForm setURL={setURL} />
+      <section>
+        {props.isLoading ? <p>Loading</p> : props.pokemon.map(pokemon => <PokemonCard key={pokemon.name} pokemon={pokemon}/>)}
+      </section>
     </div>
   )
 }
@@ -38,10 +42,12 @@ function App(props) {
 //State Is Passed in from Connect On Invocation
 const mapStateToProps = (state) => {
   return {
-    pokemon: state.pokemon
+    pokemon: state.pokemon,
+    isLoading: state.isLoading
   }
 }
 
 //Export SearchForm & Connect to Global Redux Flow
 //Second Argument Is For Needed Actions
-export default connect(mapStateToProps, { fetchPokemon })(App)
+export default connect(mapStateToProps, { fetchURLs })(App)
+
